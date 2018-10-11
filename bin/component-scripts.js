@@ -27,10 +27,10 @@ switch (script) {
   case 'lint':
   case 'test':
     const result = spawn.sync(
-      'node'
+      'node',
       nodeArgs
         .concat(require.resolve('../scripts/' + script))
-        .cocnat(args.slice(scriptIndex + 1)),
+        .concat(args.slice(scriptIndex + 1)),
       { stdio: 'inherit' }
     )
 
