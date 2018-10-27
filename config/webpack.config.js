@@ -1,21 +1,36 @@
 /* eslint-env node */
 
-const paths = require('./paths')
+'use strict'
 
-//const path = require('path')
-//const srcPath = path.join(__dirname, 'src')
-//const distPath = path.join(__dirname, 'dist')
+const path = require('path')
+const paths = require('./paths')
+const inferLibraryName = require('../utils/infer-library-name')
+
+// Opt in to creating source maps.
+const useSourceMap = process.env.GENERATE_SOURCEMAP === 'true'
+
+// You can provide your own library name or we'll infer one
+const libraryName = process.env.hasOwnProperty('LIBRARY_NAME')
+  ? process.env.LIBRARY_NAME
+  : inferLibraryName(require(paths.appPkg).name)
+
 
 module.exports = {
-  entry: paths.entry,
-  resolve: {
-    extensions: ['.js']
-  },
+  mode: 'production',
+  bail: true,
+  devtool: useSourceMap ? 'source-map' : false,
+  entry: [paths.entry],
   output: {
-    library: 'PlrQuickLinks',
+    library: libraryName,
     libraryTarget: 'umd',
     path: paths.dist,
-    filename: 'index.js'
+    filename: 'index.js',
+    devtoolModuleFilenameTemplate: info => path
+      .relative(paths.src, info.absoluteResourcePath)
+      .replace(/\\/g, '/')
+  },
+  resolve: {
+    extensions: ['.js']
   },
   externals: {
     react: {
@@ -33,17 +48,68 @@ module.exports = {
   },
   module: {
     rules: [{
-      test: /\.js$/,
-      use: 'babel-loader',
-      include: paths.src
-    }, {
-      test: /\.css$/,
-      use: [
-        'style-loader',
-        'css-loader?importLoaders=1',
-        'postcss-loader'
+      oneOf: [
+        {
+          test: [/\.bmpg$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+          loader: require.resolve('url-loader'),
+          options: {
+            limit: 10000,
+            name: 'static/media/[name].[hash:8].[ext]'
+          }
+        },
+        {
+          test: /\.js$/,
+          loader: require.resolve('babel-loader'),
+          include: paths.src,
+          options: {
+            customize: require.resolve('babel-preset-react-app/webpack-overrides'),
+            babelrc: false,
+            configFile: false,
+            presets: [require.resolve('babel-preset-react-app')],
+            cacheDirectory: true,
+            cacheCompression: false,
+            plugins: [
+              [
+                require.resolve('babel-plugin-named-asset-import'),
+                {
+                  loaderMap: {
+                    svg: {
+                      ReactComponent: '@svg/webpack?-prettier,-svgo![path]'
+                    }
+                  }
+                }
+              ]
+            ]
+          }
+        },
+        {
+          test: /\.css$/,
+          loader: [
+            'style-loader',
+            'css-loader?importLoaders=1',
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: () => [
+                  require('postcss-flexbugs-fixes'),
+                  require('postcss-preset-env')({
+                    flexbox: 'no-2009',
+                    stage: 3
+                  })
+                ],
+                sourceMap: useSourceMap
+              }
+            }
+          ]
+        },
+        {
+          loader: require.resolve('file-loader'),
+          exclude: [/\.js$/, /\.html$/, /\.json/],
+          options: {
+            name: 'static/media/[name].[hash:8].[ext]'
+          }
+        }
       ]
     }]
   }
 }
-

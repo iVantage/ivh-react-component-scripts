@@ -5,8 +5,8 @@
 		"repository": "ivantage/ivh-react-component-scripts",
 		"author": "jtrussell",
 		"license": "MIT",
-		"scripts": {
-				"component-scripts": "bin/component-scripts.js"
+		"bin": {
+				"ivh-react-component-scripts": "bin/component-scripts.js"
 		},
 		"devDependencies": {
 				"@babel/core": "7.1.0",
@@ -54,6 +54,10 @@
 				"webpack-dev-server": "3.1.9",
 				"webpack-manifest-plugin": "2.0.4",
 				"webpack": "4.19.1",
-				"workbox-webpack-plugin": "3.6.2"
+				"workbox-webpack-plugin": "3.6.2",
+				"react": "16.5.2",
+				"react-dom": "16.5.2",
+				"enzyme": "3.7.0",
+				"enzyme-adapter-react-16": "1.6.0"
 		}
 }
