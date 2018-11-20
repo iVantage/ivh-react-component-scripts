@@ -1,4 +1,6 @@
 
+'use strict'
+
 /**
  * Give a package name, guesses a library name (i.e. UMD global)
  *

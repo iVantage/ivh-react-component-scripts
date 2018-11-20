@@ -14,7 +14,7 @@ module.exports = {
   src: resolveCmp('src'),
   dist: resolveCmp('dist'),
   entry: resolveCmp('src/index.js'),
-  testsSetup: resolve('config/jest/setup-tests.js'),
+  testsSetup: resolveCmp('src/setup-tests.js'),
   babelTransform: resolve('config/jest/babel-transform.js'),
   cssTransform: resolve('config/jest/css-transform.js'),
   fileTransform: resolve('config/jest/file-transform.js'),

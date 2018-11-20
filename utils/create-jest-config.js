@@ -1,7 +1,12 @@
 
 'use strict'
 
+const fs = require('fs')
 const paths = require('../config/paths')
+
+const setupTestsFile = fs.existsSync(paths.testsSetup)
+  ? '<rootDir>/src/setup-tests.js'
+  : undefined
 
 module.exports = function createJestConfig () {
   return {
@@ -9,7 +14,7 @@ module.exports = function createJestConfig () {
     collectCoverageFrom: ['src/**/*.js'],
     resolver: require.resolve('jest-pnp-resolver'),
     setupFiles: [require.resolve('react-app-polyfill/jsdom')],
-    setupTestFrameworkScriptFile: paths.testsSetup,
+    setupTestFrameworkScriptFile: setupTestsFile,
     testMatch: ['<rootDir>/src/**/*.test.js'],
     testEnvironment: 'jsdom',
     testURL: 'http://localhost',
