@@ -12,6 +12,7 @@ module.exports = function createJestConfig () {
   return {
     rootDir: paths.appRoot,
     collectCoverageFrom: ['src/**/*.js'],
+    coveragePathIgnorePatterns: ['/node_modules/', '<rootDir>/dist/'],
     resolver: require.resolve('jest-pnp-resolver'),
     setupFiles: [require.resolve('react-app-polyfill/jsdom')],
     setupTestFrameworkScriptFile: setupTestsFile,
