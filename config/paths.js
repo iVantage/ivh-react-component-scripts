@@ -17,5 +17,5 @@ module.exports = {
   testsSetup: resolveCmp('src/setup-tests.js'),
   babelTransform: resolve('config/jest/babel-transform.js'),
   cssTransform: resolve('config/jest/css-transform.js'),
-  fileTransform: resolve('config/jest/file-transform.js'),
+  fileTransform: resolve('config/jest/file-transform.js')
 }

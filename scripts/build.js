@@ -18,8 +18,6 @@ const config = require('../config/webpack.config')
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages')
 const paths = require('../config/paths')
 
-const argv = process.argv.slice(2)
-
 fs.emptyDir(paths.dist)
   .then(build)
   .then(({ warnings }) => {
@@ -38,7 +36,7 @@ fs.emptyDir(paths.dist)
   })
 
 function build () {
-	const compiler = webpack(config)
+  const compiler = webpack(config)
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
       let messages

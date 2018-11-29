@@ -14,7 +14,6 @@ const libraryName = process.env.hasOwnProperty('LIBRARY_NAME')
   ? process.env.LIBRARY_NAME
   : inferLibraryName(require(paths.appPkg).name)
 
-
 module.exports = {
   mode: 'production',
   bail: true,
