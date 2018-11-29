@@ -21,12 +21,4 @@ argv.push(
   )
 )
 
-const path = require('path')
-const paths = require('../config/paths')
-const fs = require('fs')
-fs.writeFileSync(
-  path.join(paths.appRoot, 'jest-config.json'),
-  JSON.stringify(createJestConfig(), null, '  ')
-)
-
 jest.run(argv)
