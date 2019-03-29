@@ -1,6 +1,6 @@
 {
   "name": "ivh-react-component-scripts",
-  "version": "2.1.8-beta.1",
+  "version": "2.1.8",
   "description": "Dependencies for components build with generator-ivh-react-component",
   "repository": "ivantage/ivh-react-component-scripts",
   "author": "jtrussell",
